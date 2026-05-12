@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="gulfTpApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Search - GulfTP</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #006837; /* Dark Green from GulfTP logo */
+            --accent-color: #3ab54a; /* Lighter Green */
+            --text-dark: #1a1a1a;
+            --text-muted: #555555;
+            --bg-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 15px 0;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-brand img {
+            max-height: 60px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 12px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-header {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 10px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .btn-header:hover {
+            color: white;
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 60px 0 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .hero-section .lead-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+            color: #333;
+            max-width: 1100px;
+            margin-bottom: 10px;
+        }
+
+        /* Steps Section */
+        .steps-container {
+            padding: 20px 0 40px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .step-number {
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-right: 25px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .step-content h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 0;
+        }
+
+        /* Form Section */
+        .form-container {
+            padding: 40px 0 80px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+            color: #000;
+        }
+
+        .form-control, .select2-container--default .select2-selection--single {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-size: 1rem;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 48px;
+            padding-top: 8px;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+        }
+
+        .price-text {
+            font-size: 1.1rem;
+            margin: 20px 0;
+            color: #000;
+        }
+
+        .price-text strong {
+            font-weight: 700;
+        }
+
+        .price-text del {
+            color: #888;
+            margin-left: 5px;
+        }
+
+        .btn-book-now {
+            background: linear-gradient(to bottom, #56d8e4 0%, #3ab54a 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .disclaimer-text {
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004d2c;
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        footer .logo-footer {
+            max-height: 70px;
+            margin-bottom: 25px;
+        }
+
+        footer h5 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        footer .useful-links-title {
+            text-align: center;
+            width: 100%;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        footer ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        footer .social-links a {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: none;
+            padding-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .contact-info-footer {
+            text-align: right;
+        }
+
+        .contact-info-footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .dropdown-toggle::after {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body ng-controller="PaymentFormCtrl">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="https://gulftp.com/wp-content/uploads/2025/07/gulftp-e1754476195319-1024x423.webp" alt="GulfTP Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Solutions</a>
+                        <ul class="dropdown-menu border-0 shadow">
+                            <li><a class="dropdown-item" href="#">Gulf Company Database</a></li>
+                            <li><a class="dropdown-item" href="#">Interest Rates Database</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Regulation</a>
+                        <ul class="dropdown-menu border-0 shadow">
+                            <li><a class="dropdown-item" href="#">United Arab Emirates</a></li>
+                            <li><a class="dropdown-item" href="#">Kingdom of Saudi Arabia</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact us</a></li>
+                    <li class="nav-item"><a href="#" class="btn-header">Book Search</a></li>
+                    <li class="nav-item"><a href="#" class="btn-header">Book Appointment</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero-section">
+            <h1>Book Search</h1>
+            <p class="lead-text">Stay ahead of the curve and ensure your compliance with our expertly curated Transfer Pricing Data.</p>
+            <p>Our streamlined process provides you with the reliable, regulation-compliant benchmarking data you need, quickly and efficiently.</p>
+            <p>To get started, simply follow the steps below. We've made it simple to get a high-quality report delivered right to your inbox.</p>
+        </section>
+
+        <!-- Steps -->
+        <section class="steps-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Fill Out the Form:</h3>
+                            <p>Provide your contact information and a detailed description of the transaction you need to benchmark.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Secure Your Report:</h3>
+                            <p>Choose your benchmarking option and complete your payment of just $750 (a limited-time offer, reduced from $1000).</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Receive Your Data:</h3>
+                            <p>Your comprehensive benchmarking report will be delivered directly to the email address you provided within 2 business days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form -->
+        <section class="form-container">
+            <form name="searchForm" ng-submit="submitForm(searchForm.$valid)" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" ng-model="formData.name" required>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" ng-model="formData.email" required>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" name="mobile" ng-model="formData.mobile">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Organisation</label>
+                        <input type="text" class="form-control" name="org" ng-model="formData.org" required>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label">Choose a benchmarking option from our comprehensive list</label>
+                        <select id="industry-select" class="form-select select2" name="industry" ng-model="formData.industry" required>
+                            <option value="">Select an option...</option>
+                            <option ng-repeat="opt in industryList" value="{{opt}}">{{opt}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label">Describe the transaction you need to benchmark.</label>
+                        <textarea class="form-control" name="description" ng-model="formData.description" placeholder="Please provide some details of the transaction (such as, TP method to be used, Profit Level indicator (PLI), margin earned by the tested party, etc.)" required></textarea>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" ng-model="formData.agreed" required>
+                            <label class="form-check-label" for="termsCheck">
+                                I agree to GulfTP <a href="#" style="color: var(--primary-color);">Terms and Conditions</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="price-text">Our single benchmarking fee is now just <strong>USD 750</strong> <del>(USD 1000)</del>.</p>
+
+                <button type="submit" class="btn btn-book-now" ng-disabled="searchForm.$invalid">
+                    Book Now
+                </button>
+
+                <p class="disclaimer-text">
+                    We take your compliance and privacy seriously. All data is meticulously vetted to meet the strictest regulatory standards, and your information will be handled with complete confidentiality.
+                </p>
+            </form>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #004d2c; color: white; padding: 60px 0 20px;">
+        <div class="container">
+            <div class="row align-items-center mb-4">
+                <!-- Logo Left -->
+                <div class="col-md-3">
+                    <img src="https://gulftp.com/wp-content/uploads/2025/07/gulftp-e1754476195319-1024x423.webp" alt="GulfTP Logo" style="max-height: 60px; filter: brightness(0) invert(1);">
+                </div>
+                
+                <!-- Links Center -->
+                <div class="col-md-6 text-center">
+                    <h5 style="font-weight: 700; margin-bottom: 15px;">Useful Links</h5>
+                    <ul style="list-style: none; padding: 0; display: flex; justify-content: center; gap: 20px; margin: 0;">
+                        <li><a href="#" style="color: white; text-decoration: none;">Book Search</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Buy Subscription</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">About Us</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Right -->
+                <div class="col-md-3 text-end">
+                    <p style="margin: 0; font-size: 0.9rem;">For any queries, contact us at</p>
+                    <a href="mailto:hello@gulftp.com" style="color: white; text-decoration: none; font-weight: 600;">hello@gulftp.com</a>
+                </div>
+            </div>
+
+            <!-- Social Icons Centered -->
+            <div class="text-center mb-4">
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright & Legal -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.85rem;">
+                <div>2025 © All Rights Reserved</div>
+                <div style="display: flex; gap: 20px;">
+                    <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: white; text-decoration: none;">Term Of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        // STRIPE CONFIGURATION
+        // Replace with your actual Stripe Publishable Key from the Stripe Dashboard
+        const STRIPE_PUBLISHABLE_KEY = 'pk_test_your_key_here';
+        const stripe = typeof Stripe !== 'undefined' ? Stripe(STRIPE_PUBLISHABLE_KEY) : null;
+
+        var app = angular.module('gulfTpApp', []);
+
+        app.controller('PaymentFormCtrl', function ($scope, $timeout) {
+            $scope.formData = {
+                agreed: false
+            };
+            $scope.isSubmitting = false;
+
+            // Comprehensive industry list
+            $scope.industryList = [
+                "Assembling of motovechicles", "Botanical garden operation", "Bottling of water", "Building of ships", 
+                "Business process outsourcing", "Call center operations", "Canning of fruits", "Casting of metal products", 
+                "Chamber of commerce", "Chemicals, Plastics, and Rubber", "Civic and social organizations", 
+                "Cloud computing services", "Cloud migration services", "Computers and Electronics", "Diaper service", 
+                "Drying of fresh produce", "Educational support services", "Electrical Equipment and Appliances", 
+                "Environmental impact analysis", "Fabrication of electrical relays", "Financial planning services", 
+                "Fine arts schools", "Finishing of textiles", "Food service contractors", "Food, Beverages, and Tobacco", 
+                "Forging of metal", "Freezing of vegetables", "Furniture and Miscellaneous Goods", "Hazardous waste treatment", 
+                "Home blood collection", "Infrastructure as a service (IaaS)", "Internet access provision", "Machinery and Equipment", 
+                "Making of adhesive tape", "Making of advertising displays", "Making of aircraft engines", "Making of aluminum", 
+                "Making of audio equipment", "Making of baby carriages", "Making of bakery equipment", "Making of batteries", 
+                "Making of blankets", "Making of bread", "Making of brooms", "Making of car bodies", "Making of cheese", 
+                "Making of clay products", "Making of clocks", "Making of coffee", "Making of coffins", "Making of concrete", 
+                "Making of condiments", "Making of curtains", "Making of essential oils", "Making of eyeglasses", 
+                "Making of fishing nets", "Making of flat glass", "Making of fuses", "Making of gears", "Making of hand tools", 
+                "Making of hardware", "Making of industrial fans", "Making of insulated wire", "Making of kitchen utensils", 
+                "Making of leather footwear", "Making of lighters", "Making of machine tools", "Making of mattresses", 
+                "Making of medical imaging equipment", "Making of metal doors", "Making of monitors", "Making of nuts and bolts", 
+                "Making of oil drilling equipment", "Making of packaging machinery", "Making of paper pulp", "Making of paperboard", 
+                "Making of pens", "Making of pharmaceuticals", "Making of pianos", "Making of plastic pipe", "Making of plows", 
+                "Making of prepared foods", "Making of printed circuits", "Making of refrigerators", "Making of rubber hoses", 
+                "Making of sanitary paper", "Making of sealing compounds", "Making of seat covers", "Making of semiconductors", 
+                "Making of snack foods", "Making of soap", "Making of solar panels", "Making of spirits", "Making of sports equipment", 
+                "Making of sugar", "Making of synthetic rubber", "Making of tablets", "Making of tents", "Making of textile goods", 
+                "Making of tiles", "Making of train signals", "Making of trusses", "Making of turbines", "Making of uniforms", 
+                "Making of washing machines", "Making of wires", "Making of zippers", "Manufacturing of abrasives", 
+                "Manufacturing of Active pharmaceutical ingredients", "Manufacturing of Air Compressors", "Manufacturing of aircraft", 
+                "Manufacturing of Aluminium Cans", "Manufacturing of and assembly of PC", "Manufacturing of and supply of consumables electronics assembly", 
+                "Manufacturing of animal traps", "Manufacturing of Apparels", "Manufacturing of athletic gear", "Manufacturing of Auto Components", 
+                "Manufacturing of Automobile Ancillaries", "Manufacturing of automobile components", "Manufacturing of Automotive Products", 
+                "Manufacturing of Batteries", "Manufacturing of beer", "Manufacturing of Bike and scooter parts and components", 
+                "Manufacturing of boats", "Manufacturing of Boilers and Heaters", "Manufacturing of Cables and Connectors", 
+                "Manufacturing of capacitors", "Manufacturing of Capacitors", "Manufacturing of car engines", "Manufacturing of cardboard", 
+                "Manufacturing of Catalysts", "Manufacturing of cement", "Manufacturing of Cement and Clinker", "Manufacturing of Clamps and clamping tools", 
+                "Manufacturing of computer peripherals", "Manufacturing of computers", "Manufacturing of construction machinery", 
+                "Manufacturing of cookies", "Manufacturing of cooking oil", "Manufacturing of cosmetics", "Manufacturing of Cosmetics", 
+                "Manufacturing of cutlery", "Manufacturing of Cutting tools", "Manufacturing of dairy products", 
+                "Manufacturing of Distribution of spares and components", "Manufacturing of dresses", "Manufacturing of electric motors", 
+                "Manufacturing of Electrical Machinery and Electronics", "Manufacturing of Electrical Products", 
+                "Manufacturing of Electronic Equipment's", "Manufacturing of elevators", "Manufacturing of Engineering Goods", 
+                "Manufacturing of farm equipment", "Manufacturing of Fasteners", "Manufacturing of Ferrous and non-ferrous metals", 
+                "Manufacturing of fiber optics", "Manufacturing of fixtures", "Manufacturing of Flour milling", "Manufacturing of furnaces", 
+                "Manufacturing of Furniture", "Manufacturing of Garments", "Manufacturing of glass", "Manufacturing of Hardware and Software", 
+                "Manufacturing of hearing aids", "Manufacturing of heating apparatus", "Manufacturing of household furniture", 
+                "Manufacturing of Injection molding machines", "Manufacturing of Instruments and spare parts", "Manufacturing of IT Products", 
+                "Manufacturing of jewelry", "Manufacturing of knitwear", "Manufacturing of Laboratory Reagents", "Manufacturing of lighting fixtures", 
+                "Manufacturing of Lubricants", "Manufacturing of Lubricating products", "Manufacturing of luxury perfumes and beauty products", 
+                "Manufacturing of Machining tools", "Manufacturing of matches", "Manufacturing of Material Handling and vehicle", 
+                "Manufacturing of meat products", "Manufacturing of Medical equipment", "Manufacturing of medical gloves", 
+                "Manufacturing of Metal castings", "Manufacturing of metal tanks", "Manufacturing of military vehicles", 
+                "Manufacturing of Mobile", "Manufacturing of Motion picture production", "Manufacturing of motorcycles", 
+                "Manufacturing of Music video production", "Manufacturing of Non Electrical Machinery Non Electrical Machinery", 
+                "Manufacturing of office supplies", "Manufacturing of paint", "Manufacturing of Paper and pulp products", 
+                "Manufacturing of passenger cars", "Manufacturing of pesticides", "Manufacturing of Petroleum equipment", 
+                "Manufacturing of Pharma products", "Manufacturing of Pharmaceuticals", "Manufacturing of plaster", 
+                "Manufacturing of plastic bottles", "Manufacturing of plastics", "Manufacturing of Plastics", "Manufacturing of plywood", 
+                "Manufacturing of Power Control Module", "Manufacturing of power generators", "Manufacturing of prefabricated homes", 
+                "Manufacturing of pumps", "Manufacturing of rail cars", "Manufacturing of Road Construction Equipment", 
+                "Manufacturing of Rubber Tyres", "Manufacturing of sails", "Manufacturing of Sale of Power", "Manufacturing of Servers", 
+                "Manufacturing of signs", "Manufacturing of Skincare", "Manufacturing of smartphones", "Manufacturing of Spares and tools", 
+                "Manufacturing of Speciality Chemicals", "Manufacturing of Stainless steel tubes and pipes", "Manufacturing of stamps", 
+                "Manufacturing of Starches", "Manufacturing of stationery", "Manufacturing of steel", "Manufacturing of Steel coil", 
+                "Manufacturing of surgical instruments", "Manufacturing of Telecom products", "Manufacturing of televisions", 
+                "Manufacturing of Testing and Measurement Equipment", "Manufacturing of textile bags", "Manufacturing of textile machinery", 
+                "Manufacturing of thermoplastic elastomer and silicone masterbatch", "Manufacturing of tobacco products", 
+                "Manufacturing of tools", "Manufacturing of toys", "Manufacturing of Turbo Systems", "Manufacturing of umbrellas", 
+                "Manufacturing of Valves", "Manufacturing of Water heaters", "Manufacturing of welding equipment", "Manufacturing of wigs", 
+                "Manufacturing of wiring devices", "Manufacturing of yarn", "Medical specimen collection", "Mental health practitioners", 
+                "Mental health residential", "Non-Metallic Minerals", "Parent-teacher organizations", "Primary and Fabricated Metals", 
+                "Printing of books", "Printing of magazines", "Printing of newspapers", "Processing of fresh fish", 
+                "Processing of non-ferrous metals", "Processing of poultry", "Production of adhesives", "Production of armored cars", 
+                "Production of artificial flowers", "Production of artistic goods", "Production of bearings", "Production of bicycles", 
+                "Production of bird cages", "Production of blinds", "Production of breakfast cereals", "Production of bricks", 
+                "Production of buttons", "Production of candles", "Production of ceramic goods", "Production of chocolate", 
+                "Production of cleaning products", "Production of clothes", "Production of compressors", "Production of control panels", 
+                "Production of corrugated boxes", "Production of cut stone", "Production of dental equipment", "Production of electrical switchgear", 
+                "Production of electronic components", "Production of engines", "Production of escalators", "Production of explosives", 
+                "Production of fabric", "Production of fertilizers", "Production of food machinery", "Production of games", 
+                "Production of glass containers", "Production of greeting cards", "Production of handbags", "Production of household appliances", 
+                "Production of ice cream", "Production of industrial robots", "Production of ink", "Production of iron", "Production of knives", 
+                "Production of laptops", "Production of lime", "Production of linens", "Production of locomotives", 
+                "Production of medical furniture", "Production of medicines", "Production of metal cans", "Production of metal windows", 
+                "Production of mining machinery", "Production of monuments", "Production of musical instruments", 
+                "Production of navigation systems", "Production of office furniture", "Production of outerwear", "Production of ovens", 
+                "Production of paint brushes", "Production of paper", "Production of paper bags", "Production of pasta", "Production of pencils", 
+                "Production of plumbing fixtures", "Production of power tools", "Production of prepared meals", "Production of printers", 
+                "Production of resins", "Production of resistors", "Production of rope", "Production of rubber tires", "Production of sausages", 
+                "Production of ship parts", "Production of soft drinks", "Production of spacecraft", "Production of sporting trophies", 
+                "Production of springs", "Production of tea", "Production of telephone equipment", "Production of towels", 
+                "Production of tractors", "Production of trailers", "Production of transformers", "Production of transmission components", 
+                "Production of trucks", "Production of vacuum cleaners", "Production of video equipment", "Production of watches", 
+                "Production of wine", "Production of wood containers", "Production of wood flooring", "Provision of Acting school services", 
+                "Provision of Adult day care services", "Provision of Airline ticketing services", "Provision of Animal training services", 
+                "Provision of Animal welfare services", "Provision of Appliance repair services", "Provision of Application hosting services", 
+                "Provision of Armored car services", "Provision of Audiology services", "Provision of Automotive repair services", 
+                "Provision of Automotive towing services", "Provision of Barber shop services", "Provision of Bartending services", 
+                "Provision of Beauty salon services", "Provision of Bed and breakfast services", "Provision of Beverage services", 
+                "Provision of Billiard parlor services", "Provision of Blood bank services", "Provision of Blood bank services", 
+                "Provision of Boat repair services", "Provision of Book publishing services", "Provision of Bowling center services", 
+                "Provision of BPO services", "Provision of Business association services", "Provision of Business coaching services", 
+                "Provision of Business promotion services", "Provision of Cable and internet services", "Provision of Campground services", 
+                "Provision of Car wash services", "Provision of Career training services", "Provision of Carpet cleaning services", 
+                "Provision of Casino hotel services", "Provision of Caterers services", "Provision of Change management consulting", 
+                "Provision of Charitable foundation services", "Provision of Chimney sweep services", "Provision of Chiropractic services", 
+                "Provision of Clinical laboratory services", "Provision of Collection agency services", "Provision of Commercial machinery repair", 
+                "Provision of Community foundation services", "Provision of Community sports services", "Provision of Computer repair instruction", 
+                "Provision of Computer training services", "Provision of Concert promotion services", "Provision of Concession stand services", 
+                "Provision of Convention planning services", "Provision of Corporate travel services", "Provision of Court reporting services", 
+                "Provision of Credit bureau services", "Provision of Credit counseling services", "Provision of Cremation services", 
+                "Provision of Cruise line services", "Provision of Cybersecurity services", "Provision of Dance studio services", 
+                "Provision of Data analytics services", "Provision of Data processing services", "Provision of Data warehousing services", 
+                "Provision of Database publishing services", "Provision of Dating services", "Provision of Diet and nutrition services", 
+                "Provision of Digital marketing services", "Provision of Directory publishing services", "Provision of Document preparation services", 
+                "Provision of Domestic helper services", "Provision of Driver education services", "Provision of Dry cleaning services", 
+                "Provision of Electronic equipment repair", "Provision of Employee leasing services", "Provision of Environmental advocacy services", 
+                "Provision of Event management services", "Provision of Event planning services", "Provision of Exam preparation services", 
+                "Provision of Executive search services", "Provision of Executive support services", "Provision of Exterminating services", 
+                "Provision of Facilities support services", "Provision of Family counseling services", "Provision of Fiber optic services", 
+                "Provision of Film distribution services", "Provision of Film editing services", "Provision of Flight training services", 
+                "Provision of Foundation services", "Provision of Funeral home services", "Provision of Funeral planning services", 
+                "Provision of Fur cleaning services", "Provision of Furniture repair services", "Provision of Furniture upholstery services", 
+                "Provision of Garment alteration services", "Provision of Grantmaking services", "Provision of Greeting card publishing", 
+                "Provision of Hair removal services", "Provision of Hair salon services", "Provision of Home health aide services", 
+                "Provision of Hospice care services", "Provision of Hotel management services", "Provision of House painting services", 
+                "Provision of House sitting services", "Provision of Housekeeping services", "Provision of Internet publishing services", 
+                "Provision of Investigation services", "Provision of Janitorial services", "Provision of Journal publishing services", 
+                "Provision of Junior college services", "Provision of Labor organization services", "Provision of Landscape design services", 
+                "Provision of Landscaping maintenance services", "Provision of Landscaping services", "Provision of Laundry services", 
+                "Provision of Lawn and garden equipment repair", "Provision of Linen supply services", "Provision of Locksmith services", 
+                "Provision of Managed hosting services", "Provision of Marina services", "Provision of Maritime training services", 
+                "Provision of Meeting planning services", "Provision of Merger and acquisition consulting", "Provision of Mobile food services", 
+                "Provision of Motorcycle repair services", "Provision of Motorcycle towing services", "Provision of Music instruction services", 
+                "Provision of Music publishing services", "Provision of Nail salon services", "Provision of Nanny services", 
+                "Provision of Network support services", "Provision of News syndicate services", "Provision of Newspaper publishing services", 
+                "Provision of Notary public services", "Provision of Notary services", "Provision of Occupational therapy services", 
+                "Provision of Office administrative services", "Provision of Office support services", "Provision of Online information services", 
+                "Provision of Operations management consulting", "Provision of Optometrist services", "Provision of Packaging services", 
+                "Provision of PEO services", "Provision of Periodical publishing services", "Provision of Permanent makeup services", 
+                "Provision of Personal care services", "Provision of Pest control services", "Provision of Pest management services", 
+                "Provision of Pet boarding services", "Provision of Pet care services", "Provision of Pet grooming services", 
+                "Provision of Pet sitting services", "Provision of Photofinishing services", "Provision of Physical therapist services", 
+                "Provision of Physical therapy services", "Provision of Podiatrist services", "Provision of Political campaign services", 
+                "Provision of Political organization services", "Provision of Post-production services", "Provision of Power washing services", 
+                "Provision of Preschool education services", "Provision of Private cloud hosting", "Provision of Private detective services", 
+                "Provision of Private household services", "Provision of Professional society services", "Provision of Property management services", 
+                "Provision of Public charity services", "Provision of Public speaking services", "Provision of Quality control consulting", 
+                "Provision of Radio broadcasting services", "Provision of Radiology services", "Provision of Remediation services", 
+                "Provision of Reseller services", "Provision of Resume writing services", "Provision of RV park services", 
+                "Provision of Safety consulting services", "Provision of Satellite telecommunications services", "Provision of Shoe repair services", 
+                "Provision of Software development services", "Provision of Speech pathology services", "Provision of Sports event promotion", 
+                "Provision of Sports instruction services", "Provision of Strategic planning services", "Provision of Substance abuse services", 
+                "Provision of Supply chain consulting", "Provision of Tanning salon services", "Provision of Tattoo parlor services", 
+                "Provision of Tele-fundraising services", "Provision of Telemarketing services", "Provision of Telephone answering services", 
+                "Provision of Television broadcasting services", "Provision of Temporary staffing services", "Provision of Tennis club services", 
+                "Provision of Ticket sales services", "Provision of Timeshare services", "Provision of Tour operator services", 
+                "Provision of Trade association services", "Provision of Transcription services", "Provision of Travel agency services", 
+                "Provision of Travel arrangement services", "Provision of Uniform supply services", "Provision of Upholstery repair services", 
+                "Provision of Vacation rental services", "Provision of Vehicle inspection services", "Provision of Veteran organization services", 
+                "Provision of Video post-production services", "Provision of Video production services", "Provision of Virtual assistant services", 
+                "Provision of Virtual office services", "Provision of Voice over IP services", "Provision of Waste collection services", 
+                "Provision of Waste management consulting", "Provision of Web development services", "Provision of Web hosting services", 
+                "Provision of Weight loss services", "Provision of Window cleaning services", "Provision of Wired telecommunications services", 
+                "Provision of Wireless telecommunications services", "Provision of Youth organization services", "Refining of petroleum", 
+                "Religious organizations", "Retail of antiques", "Retail of art supplies", "Retail of baked goods", 
+                "Retail of beauty products", "Retail of beer", "Retail of bicycles", "Retail of boat parts", "Retail of books", 
+                "Retail of bottled water", "Retail of building materials", "Retail of cameras", "Retail of camping equipment", 
+                "Retail of candy", "Retail of car accessories", "Retail of car parts", "Retail of children's clothing", 
+                "Retail of collectibles", "Retail of computer software", "Retail of consumer electronics", "Retail of cosmetics", 
+                "Retail of craft supplies", "Retail of dairy products", "Retail of department store goods", "Retail of diesel fuel", 
+                "Retail of eyeglasses", "Retail of fine art", "Retail of fireplaces", "Retail of fish", "Retail of fishing equipment", 
+                "Retail of floor coverings", "Retail of flowers", "Retail of footwear", "Retail of fresh produce", "Retail of furniture", 
+                "Retail of garden supplies", "Retail of gasoline", "Retail of gifts", "Retail of groceries", "Retail of hardware", 
+                "Retail of health supplements", "Retail of hearing aids", "Retail of hobby supplies", "Retail of home furnishings", 
+                "Retail of home security systems", "Retail of home textiles", "Retail of hot tubs", "Retail of household appliances", 
+                "Retail of household linens", "Retail of hunting gear", "Retail of jewelry", "Retail of kitchenware", 
+                "Retail of lawn equipment", "Retail of lawnmowers", "Retail of leather goods", "Retail of lighting fixtures", 
+                "Retail of liquor", "Retail of luggage", "Retail of meat", "Retail of medical supplies", "Retail of men's clothing", 
+                "Retail of mobile homes", "Retail of music", "Retail of musical instruments", "Retail of musical scores", 
+                "Retail of new cars", "Retail of new computers", "Retail of newspapers", "Retail of office supplies", 
+                "Retail of optical goods", "Retail of outdoor equipment", "Retail of paint", "Retail of pet food", 
+                "Retail of pet supplies", "Retail of pharmaceuticals", "Retail of potted plants", "Retail of recreational vehicles", 
+                "Retail of refurbished electronics", "Retail of saunas", "Retail of second-hand clothes", "Retail of second-hand furniture", 
+                "Retail of small appliances", "Retail of smoking accessories", "Retail of sporting goods", "Retail of stationery", 
+                "Retail of swimming pool supplies", "Retail of tires", "Retail of tobacco products", "Retail of toys", 
+                "Retail of used cars", "Retail of used goods", "Retail of video games", "Retail of watches", "Retail of wine", 
+                "Retail of women's clothing", "Retail Trade (Business-to-Consumer)", "Retail via direct selling", 
+                "Retail via door-to-door sales", "Retail via electronic shopping", "Retail via mail order", "Retail via vending machines", 
+                "Sawing of lumber", "Security guard services", "Security system monitoring", "Senior citizen centers", "Ski resort o...", 
+                "Stamping of metal", "Trading in printed consumables", "Trading of agricultural raw materials", "Trading of Agrochemicals", 
+                "Trading of Alcohol", "Trading of Analytical equipment", "Trading of animal feed", "Trading of antique furniture", 
+                "Trading of Apparels", "Trading of auto components", "Trading of automobile parts", "Trading of bakery goods", 
+                "Trading of bottled water", "Trading of Catalysts", "Trading of Chemical", "Trading of Chemical Additives", 
+                "Trading of cleaning products", "Trading of coatings and dye", "Trading of commercial aircraft", "Trading of Computer products", 
+                "Trading of computer software", "Trading of confectionery", "Trading of dairy products", "Trading of farm machinery", 
+                "Trading of fine art", "Trading of fire extinguishers", "Trading of footwear", "Trading of fresh produce", 
+                "Trading of Hardware", "Trading of hobby goods", "Trading of home appliances", "Trading of industrial engines", 
+                "Trading of leather goods", "Trading of liquefied gas", "Trading of live plants", "Trading of lubricants", 
+                "Trading of lumber products", "Trading of machinery parts", "Trading of magazines", "Trading of mining machinery", 
+                "Trading of new tires", "Trading of office furniture", "Trading of office supplies", "Trading of optical goods", 
+                "Trading of packaging materials", "Trading of Paints", "Trading of paper products", "Trading of personal care products", 
+                "Trading of pharmaceuticals", "Trading of piece goods", "Trading of plumbing supplies", "Trading of Posts", 
+                "Trading of precious metals", "Trading of professional supplies", "Trading of railroad equipment", "Trading of raw tobacco", 
+                "Trading of recorded media", "Trading of Recreation and database", "Trading of refrigeration units", "Trading of seafood", 
+                "Trading of security systems", "Trading of Software Products", "Trading of sporting goods", "Trading of tools", 
+                "Trading of Transport equipment", "Trading of Turbo Systems", "Trading of twine", "Trading of uniforms", 
+                "Trading of used equipment", "Trading of Valves", "Trading of waste products", "Trading of Water heaters", 
+                "Trading of wind turbines", "Trading products", "Treating of wood", "Weaving of carpets", "Wholesale of adhesives", 
+                "Wholesale of alcoholic beverages", "Wholesale of apparel", "Wholesale of bakery ingredients", "Wholesale of books", 
+                "Wholesale of chemicals", "Wholesale of commercial scales", "Wholesale of communication equipment", 
+                "Wholesale of computer hardware", "Wholesale of construction materials", "Wholesale of crafts supplies", 
+                "Wholesale of drugs", "Wholesale of electric motors", "Wholesale of electrical goods", "Wholesale of fabricated metals", 
+                "Wholesale of fertilizers", "Wholesale of fire alarms", "Wholesale of fresh flowers", "Wholesale of frozen foods", 
+                "Wholesale of fuel oil", "Wholesale of furniture", "Wholesale of grain", "Wholesale of grocery products", 
+                "Wholesale of heating equipment", "Wholesale of industrial equipment", "Wholesale of industrial robots", 
+                "Wholesale of jewelry", "Wholesale of laboratory supplies", "Wholesale of luggage", "Wholesale of meat products", 
+                "Wholesale of medical equipment", "Wholesale of musical instruments", "Wholesale of newspapers", "Wholesale of notions", 
+                "Wholesale of paper towels", "Wholesale of pet food", "Wholesale of photographic equipment", "Wholesale of rare collectibles", 
+                "Wholesale of raw coffee", "Wholesale of recyclable materials", "Wholesale of ropes", "Wholesale of safety equipment", 
+                "Wholesale of secondhand books", "Wholesale of seeds", "Wholesale of ships", "Wholesale of solar panels", 
+                "Wholesale of specialty foods", "Wholesale of surgical instruments", "Wholesale of toys", "Wholesale of used goods"
+            ];
+
+            // Initialize Select2
+            $timeout(function() {
+                $('#industry-select').select2({
+                    placeholder: "Select from our comprehensive list...",
+                    allowClear: true
+                }).on('change', function() {
+                    var val = $(this).val();
+                    $scope.$apply(function() {
+                        $scope.formData.industry = val;
+                    });
+                });
+            }, 500);
+
+            $scope.submitForm = function (isValid) {
+                if (isValid) {
+                    if (!stripe) {
+                        alert("Stripe is not configured. Please set your Publishable Key.");
+                        return;
+                    }
+
+                    $scope.isSubmitting = true;
+                    
+                    // Call our backend to create a Checkout Session
+                    fetch('http://localhost:5000/create-checkout-session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify($scope.formData),
+                    })
+                    .then(response => response.json())
+                    .then(session => {
+                        if (session.error) {
+                            throw new Error(session.error);
+                        }
+                        // Redirect to Stripe Checkout
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                    })
+                    .then(result => {
+                        if (result && result.error) {
+                            alert(result.error.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Payment Failed: " + error.message);
+                    })
+                    .finally(() => {
+                        $scope.$apply(function() {
+                            $scope.isSubmitting = false;
+                        });
+                    });
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>
+
